@@ -720,31 +720,29 @@
       let targetTiltX = 0, targetTiltY = 0;
       let currentTiltX = 0, currentTiltY = 0;
 
-      // 1. Scroll-Driven Seamless Zoom inside the Hero
-      window.addEventListener('scroll', () => {
-        const scrollY = window.scrollY;
-        const heroHeight = window.innerHeight;
-        const progress = Math.min(1.0, scrollY / (heroHeight * 0.9));
-        
-        // Deep cosmic zoom as user scrolls through the hero
-        targetScale = 1.04 + progress * 0.72;
-      }, { passive: true });
-
-      // 2. Mouse Wheel Zoom Interaction directly on the Galaxy Hero
-      window.addEventListener('wheel', (e) => {
-        if (window.scrollY < 300) {
+      // 1. Explicit Background Zoom on the Galaxy (Decoupled from Page Scroll!)
+      // Mouse Wheel Zoom directly over the Galaxy Background
+      container.addEventListener('wheel', (e) => {
+        if (window.scrollY < 80) {
           if (e.deltaY > 0) {
-            targetScale = Math.min(1.75, targetScale + 0.10);
+            targetScale = Math.min(1.75, targetScale + 0.12);
           } else if (e.deltaY < 0 && targetScale > 1.04) {
-            targetScale = Math.max(1.04, targetScale - 0.10);
+            targetScale = Math.max(1.04, targetScale - 0.12);
           }
         }
       }, { passive: true });
 
-      // 3. Double-Click or Click to dive directly to the end of Zoom
+      // 2. Double-Click directly on the Galaxy Background to toggle deep zoom
       container.addEventListener('dblclick', () => {
-        targetScale = targetScale > 1.45 ? 1.04 : 1.70;
+        targetScale = targetScale > 1.35 ? 1.04 : 1.70;
       });
+
+      // 3. Reset background zoom when user scrolls down to view sections below
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 100 && targetScale > 1.04) {
+          targetScale = 1.04;
+        }
+      }, { passive: true });
 
       // 4. Mouse Parallax & Dynamic Perspective Tilt
       window.addEventListener('mousemove', (e) => {
