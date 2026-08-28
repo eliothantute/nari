@@ -52,7 +52,7 @@
     <main>
       <!-- 1. CINEMATIC HERO (3D Animated Space World: Need Some Space? with Interactive Zoom) -->
       <section class="lucerra-cinematic-hero" id="home">
-        <!-- 3D Sketchfab Space Background with Interactive Zoom & Seamless Elon Transition -->
+        <!-- 3D Sketchfab Space Background with Ambient Orbit -->
         <div class="hero-moon-wrap reveal-element" id="moonCanvasContainer">
           <iframe 
             id="sketchfabSpaceIframe"
@@ -66,13 +66,6 @@
             allowfullscreen
             class="sketchfab-space-iframe">
           </iframe>
-
-          <!-- Seamless Elon Musk Background Layer embedded directly in the Hero -->
-          <div class="hero-elon-backdrop" id="heroElonBackdrop">
-            <img src="assets/elon_rogan.jpg" alt="Elon Musk Joe Rogan" class="hero-elon-img">
-            <div class="hero-elon-gradient-vignette"></div>
-          </div>
-
           <div class="sketchfab-gradient-overlay"></div>
         </div>
 
@@ -115,15 +108,10 @@
           <a href="#pricing" class="lucerra-scroll-arrow" aria-label="Découvrir les offres">↓</a>
         </div>
 
-        <!-- Bottom Bar & Zoom Action Button -->
+        <!-- Bottom Bar -->
         <div class="lucerra-bottom-bar">
           <a href="#pricing">voir les offres</a>
         </div>
-
-        <button class="hero-zoom-action-btn" onclick="toggleGalaxyZoom()" aria-label="Zoomer sur la Galaxie">
-          <span class="hero-zoom-icon">🔍</span>
-          <span>EXPLORER LA GALAXIE</span>
-        </button>
       </section>
 
       <!-- 2. SUBSCRIPTION PRICING & ORDER TIERS (3D Particle Globe Cards) -->
@@ -713,68 +701,16 @@
       });
     }
 
-    // 5. 3D Animated Space World with Seamless In-Hero Elon Musk Zoom Transition
+    // 5. 3D Animated Space World (Need some space? - Sketchfab) with Dynamic Perspective Tilt
     function initSketchfabSpaceZoom() {
       const iframe = document.getElementById('sketchfabSpaceIframe');
       const container = document.getElementById('moonCanvasContainer');
-      const elonBackdrop = document.getElementById('heroElonBackdrop');
       if (!iframe || !container) return;
 
-      let currentScale = 1.04;
-      let targetScale = 1.04;
       let targetTiltX = 0, targetTiltY = 0;
       let currentTiltX = 0, currentTiltY = 0;
 
-      // Global Zoom Toggle function
-      window.toggleGalaxyZoom = function() {
-        targetScale = targetScale > 1.30 ? 1.04 : 1.70;
-      };
-
-      // 1. Explicit Background Zoom on the Galaxy (Window & Container Event Listening)
-      window.addEventListener('wheel', (e) => {
-        if (window.scrollY < 120) {
-          if (e.deltaY > 0 && targetScale < 1.70) {
-            targetScale = Math.min(1.75, targetScale + 0.14);
-          } else if (e.deltaY < 0 && targetScale > 1.04) {
-            targetScale = Math.max(1.04, targetScale - 0.14);
-          }
-        }
-      }, { passive: true });
-
-      // 2. Double-Click directly anywhere on the Hero to toggle deep zoom
-      const heroEl = document.getElementById('home');
-      if (heroEl) {
-        heroEl.addEventListener('dblclick', () => {
-          window.toggleGalaxyZoom();
-        });
-      }
-
-      // 3. Reset background zoom when user scrolls down to view sections below
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 100 && targetScale > 1.04) {
-          targetScale = 1.04;
-        }
-      }, { passive: true });
-
-      // Reset zoom handlers
-      if (elonBackdrop) {
-        elonBackdrop.addEventListener('click', () => {
-          targetScale = 1.04;
-        });
-        elonBackdrop.addEventListener('wheel', (e) => {
-          if (e.deltaY < 0) {
-            targetScale = 1.04;
-          }
-        }, { passive: true });
-      }
-
-      window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && targetScale > 1.30) {
-          targetScale = 1.04;
-        }
-      });
-
-      // 4. Mouse Parallax & Dynamic Perspective Tilt
+      // Mouse Parallax & Dynamic Perspective Tilt
       window.addEventListener('mousemove', (e) => {
         const ndcX = (e.clientX / window.innerWidth) * 2 - 1;
         const ndcY = (e.clientY / window.innerHeight) * 2 - 1;
@@ -783,39 +719,12 @@
         targetTiltY = ndcX * 3.0;
       }, { passive: true });
 
-      // 5. Smooth Rendering Animation Loop (Elon appears ONLY at the very end of the zoom, all by himself in fullscreen!)
-      const heroContent = document.querySelector('.lucerra-center-content');
+      // Smooth Rendering Animation Loop
       function renderZoomLoop() {
-        currentScale += (targetScale - currentScale) * 0.08;
         currentTiltX += (targetTiltX - currentTiltX) * 0.06;
         currentTiltY += (targetTiltY - currentTiltY) * 0.06;
 
-        // Image appears strictly at the end of the galaxy zoom (scale > 1.36)
-        const endOfZoomProgress = Math.min(1.0, Math.max(0.0, (currentScale - 1.36) / 0.28));
-
-        // 1. Scale & fade 3D galaxy at the end of zoom
-        iframe.style.transform = `scale(${currentScale.toFixed(4)}) rotateX(${currentTiltX.toFixed(2)}deg) rotateY(${currentTiltY.toFixed(2)}deg)`;
-        iframe.style.opacity = (1.0 - endOfZoomProgress * 0.98).toFixed(3);
-
-        // 2. Reveal Elon Musk cleanly and smoothly in fullscreen alone
-        if (elonBackdrop) {
-          elonBackdrop.style.opacity = (endOfZoomProgress).toFixed(3);
-          if (endOfZoomProgress > 0.6) {
-            elonBackdrop.classList.add('is-active');
-          } else {
-            elonBackdrop.classList.remove('is-active');
-          }
-          const elonScale = (1.0 + endOfZoomProgress * 0.04).toFixed(3);
-          elonBackdrop.style.transform = `scale(${elonScale}) rotateX(${(currentTiltX * 0.4).toFixed(2)}deg) rotateY(${(currentTiltY * 0.4).toFixed(2)}deg)`;
-        }
-
-        // 3. Fade out the hero text so Elon Musk displays completely alone!
-        if (heroContent) {
-          heroContent.style.opacity = (1.0 - endOfZoomProgress * 0.98).toFixed(3);
-          heroContent.style.transform = `translateY(${(-endOfZoomProgress * 30).toFixed(1)}px)`;
-          heroContent.style.pointerEvents = endOfZoomProgress > 0.6 ? 'none' : 'auto';
-        }
-
+        iframe.style.transform = `scale(1.05) rotateX(${currentTiltX.toFixed(2)}deg) rotateY(${currentTiltY.toFixed(2)}deg)`;
         requestAnimationFrame(renderZoomLoop);
       }
       requestAnimationFrame(renderZoomLoop);
