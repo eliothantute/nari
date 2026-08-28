@@ -450,6 +450,126 @@ body {
   display: none;
 }
 
+/* Galaxy Hyper-Zoom Easter Egg Overlay (Elon Musk Joe Rogan) */
+.galaxy-elon-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(3, 3, 7, 0.88);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s ease;
+  padding: 24px;
+}
+
+.galaxy-elon-overlay.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.galaxy-elon-card {
+  position: relative;
+  max-width: 760px;
+  width: 100%;
+  background: rgba(12, 12, 20, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: var(--radius-md);
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.9), 0 0 60px rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+  transform: scale(0.92) translateY(20px);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.galaxy-elon-overlay.is-active .galaxy-elon-card {
+  transform: scale(1) translateY(0);
+}
+
+.galaxy-elon-img-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #000;
+}
+
+.galaxy-elon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.galaxy-elon-smoke-glow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, rgba(12, 12, 20, 0.95) 100%),
+              radial-gradient(circle at 75% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.galaxy-elon-hud {
+  padding: 28px 36px 36px;
+  text-align: center;
+}
+
+.galaxy-elon-badge {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #a5ffc9;
+  letter-spacing: 0.16em;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.galaxy-elon-title {
+  font-family: var(--font-main);
+  font-size: clamp(20px, 2.5vw, 28px);
+  font-weight: 900;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.galaxy-elon-desc {
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 24px;
+}
+
+.galaxy-elon-close-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 32px;
+  border-radius: var(--radius-pill);
+  background: #ffffff;
+  color: #000000;
+  border: 2px solid #ffffff;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.galaxy-elon-close-btn:hover {
+  background: #000000;
+  color: #ffffff;
+  border-color: #ffffff;
+  transform: scale(1.04);
+}
+
 /* Center Content (Title, Hook, Subtext, CTA) */
 .lucerra-center-content {
   position: relative;

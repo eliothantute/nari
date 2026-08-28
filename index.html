@@ -257,8 +257,50 @@
     <span id="toastMessage">Commande enregistrée avec succès.</span>
   </div>
 
+  <!-- Galaxy Hyper-Zoom Easter Egg (Elon Musk Joe Rogan) -->
+  <div class="galaxy-elon-overlay" id="galaxyElonOverlay" onclick="if(event.target===this) closeElonEasterEgg()">
+    <div class="galaxy-elon-card">
+      <div class="galaxy-elon-img-wrap">
+        <img src="assets/elon_rogan.jpg" alt="Elon Musk Joe Rogan Interview" class="galaxy-elon-img">
+        <div class="galaxy-elon-smoke-glow"></div>
+      </div>
+      <div class="galaxy-elon-hud">
+        <div class="galaxy-elon-badge">// SIGNAL INTERSTELLAIRE • JOE ROGAN PODCAST SECTOR</div>
+        <h3 class="galaxy-elon-title">« I mean, it’s legal, right? »</h3>
+        <p class="galaxy-elon-desc">
+          Pendant qu'Elon explore les confins du cosmos et ses inspirations, NARI pilote votre ordinateur en temps réel.
+        </p>
+        <button class="galaxy-elon-close-btn" onclick="closeElonEasterEgg()">
+          <span>REVENIR À LA GALAXIE</span> ➔
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- JAVASCRIPT LOGIC -->
   <script>
+    // Global Elon Musk Easter Egg Controllers
+    let isElonEasterEggActive = false;
+
+    window.openElonEasterEgg = function() {
+      if (isElonEasterEggActive) return;
+      isElonEasterEggActive = true;
+      const overlay = document.getElementById('galaxyElonOverlay');
+      if (overlay) overlay.classList.add('is-active');
+    };
+
+    window.closeElonEasterEgg = function() {
+      isElonEasterEggActive = false;
+      const overlay = document.getElementById('galaxyElonOverlay');
+      if (overlay) overlay.classList.remove('is-active');
+      if (window.resetGalaxyZoom) window.resetGalaxyZoom();
+    };
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isElonEasterEggActive) {
+        closeElonEasterEgg();
+      }
+    });
 
     document.addEventListener('DOMContentLoaded', () => {
       // 0. Cinematic Preloader Progress
@@ -708,12 +750,40 @@
       const container = document.getElementById('moonCanvasContainer');
       if (!iframe || !container) return;
 
-      let currentScale = 1.06;
-      let targetScale = 1.06;
+      let currentScale = 1.05;
+      let targetScale = 1.05;
       let targetTiltX = 0, targetTiltY = 0;
       let currentTiltX = 0, currentTiltY = 0;
 
-      // Mouse Parallax & Dynamic Perspective Tilt
+      // 1. Scroll-Driven Cosmic Zoom
+      window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        const heroHeight = window.innerHeight;
+        const progress = Math.min(1.0, scrollY / heroHeight);
+        
+        // Deep cosmic zoom as user scrolls
+        targetScale = 1.05 + progress * 0.42;
+      }, { passive: true });
+
+      // 2. Wheel Zoom Interaction over Galaxy Scene
+      window.addEventListener('wheel', (e) => {
+        if (window.scrollY < 250 && e.deltaY > 0) {
+          targetScale = Math.min(1.48, targetScale + 0.08);
+        } else if (window.scrollY < 250 && e.deltaY < 0 && targetScale > 1.05) {
+          targetScale = Math.max(1.05, targetScale - 0.08);
+        }
+      }, { passive: true });
+
+      // 3. Double-Click or Tap to Hyper-Zoom
+      container.addEventListener('dblclick', () => {
+        targetScale = 1.45;
+      });
+
+      window.resetGalaxyZoom = function() {
+        targetScale = 1.05;
+      };
+
+      // 4. Mouse Parallax & Dynamic Perspective Tilt
       window.addEventListener('mousemove', (e) => {
         const ndcX = (e.clientX / window.innerWidth) * 2 - 1;
         const ndcY = (e.clientY / window.innerHeight) * 2 - 1;
@@ -722,12 +792,18 @@
         targetTiltY = ndcX * 3.0;
       }, { passive: true });
 
-      // Smooth Rendering Animation Loop
+      // 5. Smooth Rendering Animation Loop
       function renderZoomLoop() {
+        currentScale += (targetScale - currentScale) * 0.07;
         currentTiltX += (targetTiltX - currentTiltX) * 0.06;
         currentTiltY += (targetTiltY - currentTiltY) * 0.06;
 
-        iframe.style.transform = `scale(1.05) rotateX(${currentTiltX.toFixed(2)}deg) rotateY(${currentTiltY.toFixed(2)}deg)`;
+        iframe.style.transform = `scale(${currentScale.toFixed(4)}) rotateX(${currentTiltX.toFixed(2)}deg) rotateY(${currentTiltY.toFixed(2)}deg)`;
+        
+        if (!isElonEasterEggActive && currentScale >= 1.35) {
+          openElonEasterEgg();
+        }
+
         requestAnimationFrame(renderZoomLoop);
       }
       requestAnimationFrame(renderZoomLoop);
