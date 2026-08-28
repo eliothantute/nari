@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NARI // [VOICE_AUTONOMOUS_AI] • TECHNOLOGIE FRANÇAISE</title>
+  <meta name="description" content="Pilotez votre ordinateur uniquement à la voix. Expérience digitale souveraine inspirée de l'art cinématique.">
+  
+  <!-- Google Fonts: Cinzel, Anybody, Outfit, Space Grotesk, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,400..900;1,400..900&family=Cinzel:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Three.js CDN & Sketchfab Viewer API -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://static.sketchfab.com/api/sketchfab-viewer-1.12.1.js"></script>
+
+  <!-- Framer FluidImage Shader for Hook Typography -->
+  <script src="fluid-image.js"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Film Grain Texture Overlay -->
+  <div class="film-grain-overlay"></div>
+
+  <!-- Custom Magnetic Inertia Cursor -->
+  <div class="custom-cursor-dot" id="cursorDot"></div>
+  <div class="custom-cursor-follower" id="cursorFollower">
+    <span class="cursor-label" id="cursorLabel"></span>
+  </div>
+
+  <!-- CINEMATIC PRELOADER -->
+  <div class="cinematic-preloader" id="preloader">
+    <div class="preloader-brand">NARI</div>
+    <div class="preloader-counter-wrap">
+      <div class="preloader-bar-bg">
+        <div class="preloader-bar-fill" id="preloaderBar"></div>
+      </div>
+      <span id="preloaderNum">000%</span>
+    </div>
+  </div>
+
+  <!-- Top Scroll Progress Bar -->
+  <div id="scroll-progress-bar"></div>
+
+  <!-- THE MASTER GRAND FRAME -->
+  <div class="master-grand-frame">
+
+    <main>
+      <!-- 1. CINEMATIC HERO (3D Animated Space World: Need Some Space? with Interactive Zoom) -->
+      <section class="lucerra-cinematic-hero" id="home">
+        <!-- 3D Sketchfab Space Background with Interactive Zoom -->
+        <div class="hero-moon-wrap reveal-element" id="moonCanvasContainer">
+          <iframe 
+            id="sketchfabSpaceIframe"
+            src="https://sketchfab.com/models/d6521362b37b48e3a82bce4911409303/embed?autostart=1&internal=1&ui_controls=0&ui_infos=0&ui_stop=0&ui_watermark=0&ui_hint=0&ui_theme=dark&camera=0&autospin=0.18" 
+            title="Need some space?" 
+            frameborder="0" 
+            allow="autoplay; fullscreen; xr-spatial-tracking" 
+            execution-while-out-of-viewport 
+            execution-while-not-rendered 
+            web-share 
+            allowfullscreen
+            class="sketchfab-space-iframe">
+          </iframe>
+          <div class="sketchfab-gradient-overlay"></div>
+        </div>
+
+        <!-- Centered Branding & Hook Content -->
+        <div class="lucerra-center-content reveal-element">
+          <!-- Spotlight Made in France Sovereign Badge -->
+          <div class="hero-france-tag">
+            <span class="france-flag">🇫🇷</span>
+            <span>TECHNOLOGIE SOUVERAINE FRANÇAISE</span>
+          </div>
+
+          <div class="lucerra-main-brand scramble-text">NARI</div>
+
+          <!-- CLEAN GRAND HEADLINE WITH LETTER-BY-LETTER REVEAL & ORGANIC HOVER DEFORMATION -->
+          <h1 class="hero-tagline" id="heroTagline">
+            <span class="block char-reveal-line" data-text="RESTEZ CONCENTRÉ.">RESTEZ CONCENTRÉ.</span>
+            <span class="block char-reveal-line" data-text="LAISSEZ VOTRE VOIX AGIR.">LAISSEZ VOTRE VOIX AGIR.</span>
+          </h1>
+
+          <p class="hero-subtext">
+            Votre agent vocal orchestre plusieurs IA et pilote votre ordinateur pendant que vous restez concentré sur l’essentiel.
+          </p>
+
+          <!-- FRAMER FLUID BUTTON CTA (framer.com/m/Fluid-Button-TYcP.js) -->
+          <button class="fluid-button-cta" onclick="window.open('https://naoufal30.gumroad.com/l/narios', '_blank')">
+            <span class="fluid-btn-bubble"></span>
+            <span class="fluid-btn-label-stack">
+              <span class="fluid-btn-text upper-text">
+                <span>COMMANDER</span>
+                <span class="fluid-btn-arrow">➔</span>
+              </span>
+              <span class="fluid-btn-text lower-text">
+                <span>COMMANDER</span>
+                <span class="fluid-btn-arrow">➔</span>
+              </span>
+            </span>
+          </button>
+
+          <!-- Scroll Down Arrow to Subscriptions -->
+          <a href="#pricing" class="lucerra-scroll-arrow" aria-label="Découvrir les offres">↓</a>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="lucerra-bottom-bar">
+          <a href="#pricing">voir les offres</a>
+          <a href="mailto:sayhi@nari.ai">sayhi@nari.ai</a>
+        </div>
+      </section>
+
+      <!-- 2. SUBSCRIPTION PRICING & ORDER TIERS (3D Particle Globe Cards) -->
+      <section class="pricing-section-flow" id="pricing">
+        <div class="section-head-center">
+          <h2 class="section-main-title">
+            <span class="block">MOINS DE CLICS.</span>
+            <span class="block">PLUS D’ACTIONS.</span>
+          </h2>
+          <p class="section-subtext">
+            CONCENTREZ-VOUS SUR CE QUI COMPTE.<br>
+            VOTRE VOIX S'OCCUPE DU RESTE.
+          </p>
+        </div>
+
+        <div class="pricing-grid" id="pricingGrid">
+          <!-- Mensuel 200€ (3D Silver Starlight Particle Globe) -->
+          <div class="bento-card reveal-element" onclick="openPreorderModal('monthly')">
+            <!-- 3D Particle Globe Container -->
+            <div class="card-globe-wrap">
+              <div class="card-globe-canvas" id="globeMonthlyCanvas"></div>
+            </div>
+
+            <div class="pricing-header">
+              <span class="card-tag">MENSUEL</span>
+              <h3 class="card-tier-title scramble-text">Mensuel</h3>
+              <div class="price-value">
+                <span class="amount">200€</span>
+                <span class="period">/ Mois</span>
+              </div>
+            </div>
+            <div class="pricing-divider"></div>
+            <div class="pricing-features">
+              <ul>
+                <li>Contrôle vocal smartphone iOS / Android</li>
+                <li>Fast Loop Kokoro 0ms Latence</li>
+                <li>🇫🇷 Données souveraines &amp; protégées (RGPD)</li>
+                <li>Mises à jour et nouveaux agents inclus</li>
+                <li>Sans engagement • Résiliable en 1 clic</li>
+              </ul>
+            </div>
+            <button class="pricing-cta-btn" onclick="event.stopPropagation(); openPreorderModal('monthly')">Commander ➔</button>
+          </div>
+
+          <!-- Lifetime 2000€ (3D Quantum Starlight Particle Globe) -->
+          <div class="bento-card popular-card reveal-element" onclick="window.open('https://naoufal30.gumroad.com/l/narios', '_blank')">
+            <div class="popular-tag">ACCÈS À VIE</div>
+
+            <!-- 3D Particle Globe Container -->
+            <div class="card-globe-wrap">
+              <div class="card-globe-canvas" id="globeLifetimeCanvas"></div>
+            </div>
+
+            <div class="pricing-header">
+              <span class="card-tag">LIFETIME</span>
+              <h3 class="card-tier-title scramble-text">Lifetime</h3>
+              <div class="price-value">
+                <span class="amount">2000€</span>
+                <span class="period">À Vie</span>
+              </div>
+            </div>
+            <div class="pricing-divider"></div>
+            <div class="pricing-features">
+              <ul>
+                <li>Accès perpétuel à vie sans aucun abonnement</li>
+                <li>Tous les agents autonomes &amp; déploiements illimités</li>
+                <li>🇫🇷 Conçu &amp; Développé en France • Zéro revente de données</li>
+                <li>Mises à jour majeures futures à vie</li>
+                <li>Support prioritaire direct &amp; Badge Fondateur</li>
+              </ul>
+            </div>
+            <a href="https://naoufal30.gumroad.com/l/narios" target="_blank" rel="noopener noreferrer" class="pricing-cta-btn primary-cta" style="text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center;" onclick="event.stopPropagation();">Commander ➔</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer Inside Frame -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <span class="footer-tag">© 2026 NARI // [VOICE_AUTONOMOUS_AI] • 🇫🇷 MADE IN FRANCE</span>
+        <a href="mailto:sayhi@nari.ai" class="footer-email">sayhi@nari.ai</a>
+      </div>
+    </footer>
+
+  </div>
+  <!-- END OF MASTER GRAND FRAME -->
+
+  <!-- ORDER MODAL -->
+  <div class="modal-overlay" id="preorderModal" style="display: none;" onclick="if(event.target===this) closePreorderModal()">
+    <div class="modal-content">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border-subtle);">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <img src="assets/logo.jpg" alt="Logo" style="width: 26px; height: 26px; border-radius: 4px; object-fit: contain;">
+          <div>
+            <h3 style="font-family: var(--font-main); font-size: 14px; font-weight: 800; text-transform: uppercase;">Commander Nari</h3>
+            <p style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);">[ACCÈS PIONNIER • 🇫🇷 MADE IN FRANCE]</p>
+          </div>
+        </div>
+        <button onclick="closePreorderModal()" style="background: none; border: none; color: var(--text-muted); font-family: var(--font-mono); font-size: 14px; cursor: pointer;">[✕]</button>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px;">
+        <div class="tier-card" id="tierOptionMonthly" onclick="selectModalTier('monthly')">
+          <p style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);">MENSUEL</p>
+          <p style="font-family: var(--font-main); font-size: 16px; font-weight: 800; margin-top: 2px;">200€</p>
+          <span style="font-family: var(--font-mono); font-size: 9px; color: var(--text-secondary);">/ mois</span>
+        </div>
+        <div class="tier-card selected" id="tierOptionLifetime" onclick="selectModalTier('lifetime')">
+          <p style="font-family: var(--font-mono); font-size: 10px; color: #ffffff;">LIFETIME</p>
+          <p style="font-family: var(--font-main); font-size: 16px; font-weight: 800; margin-top: 2px;">2000€</p>
+          <span style="font-family: var(--font-mono); font-size: 9px; color: #ffffff;">À Vie</span>
+        </div>
+      </div>
+
+      <form id="preorderForm" onsubmit="handlePreorderSubmit(event)" style="display: flex; flex-direction: column; gap: 12px;">
+        <div>
+          <label style="display: block; font-family: var(--font-mono); font-size: 10px; color: var(--text-secondary); margin-bottom: 4px;">NOM COMPLET</label>
+          <input type="text" id="orderName" required placeholder="Alexandre Dumas" class="custom-input">
+        </div>
+        <div>
+          <label style="display: block; font-family: var(--font-mono); font-size: 10px; color: var(--text-secondary); margin-bottom: 4px;">EMAIL PROFESSIONNEL</label>
+          <input type="email" id="orderEmail" required placeholder="alex@entreprise.fr" class="custom-input">
+        </div>
+        <div>
+          <label style="display: block; font-family: var(--font-mono); font-size: 10px; color: var(--text-secondary); margin-bottom: 4px;">SYSTÈME D'EXPLOITATION</label>
+          <select id="orderOS" class="custom-input" style="cursor: pointer;">
+            <option value="macOS" style="background: #000; color: #fff;">macOS (Apple Silicon M1/M2/M3/M4)</option>
+            <option value="Windows" style="background: #000; color: #fff;">Windows 11 (x64 / ARM)</option>
+            <option value="iOS_Android" style="background: #000; color: #fff;">Mobile (iOS / Android)</option>
+          </select>
+        </div>
+
+        <button type="submit" class="pricing-cta-btn primary-cta" style="width: 100%; margin-top: 14px; padding: 13px;">
+          Valider la commande ➔
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toastNotification" class="toast-banner" style="display: none;">
+    <span>⚡</span>
+    <span id="toastMessage">Commande enregistrée avec succès.</span>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // 0. Cinematic Preloader Progress
+      initCinematicPreloader();
+
+      // 1. Custom Magnetic Inertia Cursor
+      initCustomCursor();
+
+      // 2. Scroll Progress Bar
+      initScrollProgress();
+
+      // 3. Scroll Reveal Observer
+      initScrollReveals();
+
+      // 4. Ultra-Smooth Letter-by-Letter Sequential Entrance
+      initLetterByLetterReveal();
+
+      // 5. 3D Animated Space World (Need Some Space?) with Dynamic Zoom
+      initSketchfabSpaceZoom();
+
+      // 6. Scramble Text Effect on Japanese / Monospace tags
+      initJapaneseScramble();
+
+      // 7. 3D Liquid Magnetic Wave Text Deformation Engine
+      initLetterDeformationPhysics();
+
+      // 8. Theme Switcher Engine (Mode Jour & Nuit)
+      initThemeSwitcher();
+
+      // 9. 3D Zero-Gravity Subscription Card Levitation Engine
+      init3DZeroGravityCards();
+
+      // 10. WebGL 3D Interactive Particle Globes for Subscription Cards
+      initCardParticleGlobes();
+    });
+
+    // 0. Cinematic Preloader Progress
+    function initCinematicPreloader() {
+      const preloader = document.getElementById('preloader');
+      const bar = document.getElementById('preloaderBar');
+      const num = document.getElementById('preloaderNum');
+      let progress = 0;
+
+      const interval = setInterval(() => {
+        progress += Math.floor(Math.random() * 9) + 5;
+        if (progress > 100) progress = 100;
+
+        if (bar) bar.style.width = progress + '%';
+        if (num) num.textContent = String(progress).padStart(3, '0') + '%';
+
+        if (progress === 100) {
+          clearInterval(interval);
+          setTimeout(() => {
+            if (preloader) preloader.classList.add('is-hidden');
+          }, 300);
+        }
+      }, 30);
+    }
+
+    // 1. Custom Magnetic Inertia Cursor Engine
+    function initCustomCursor() {
+      const dot = document.getElementById('cursorDot');
+      const follower = document.getElementById('cursorFollower');
+      const label = document.getElementById('cursorLabel');
+
+      if (!dot || !follower) return;
+
+      let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+      let followerX = mouseX, followerY = mouseY;
+
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+      });
+
+      function animateFollower() {
+        followerX += (mouseX - followerX) * 0.14;
+        followerY += (mouseY - followerY) * 0.14;
+        follower.style.transform = `translate(${followerX}px, ${followerY}px)`;
+        requestAnimationFrame(animateFollower);
+      }
+      requestAnimationFrame(animateFollower);
+
+      // Interactive hover expand
+      const interactives = document.querySelectorAll('a, button, .bento-card, .tier-card');
+      interactives.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          follower.classList.add('is-hovered');
+          if (label) {
+            if (el.classList.contains('bento-card') || el.classList.contains('tier-card')) label.textContent = 'CHOISIR';
+            else label.textContent = 'OUVRIR';
+          }
+        });
+        el.addEventListener('mouseleave', () => {
+          follower.classList.remove('is-hovered');
+          if (label) label.textContent = '';
+        });
+      });
+    }
+
+    // 9. 3D Zero-Gravity Subscription Cards Interactive Gyroscope Tilt
+    function init3DZeroGravityCards() {
+      const cards = document.querySelectorAll('.bento-card');
+      cards.forEach(card => {
+        let isHovered = false;
+        let targetRotX = 0, targetRotY = 0, currentRotX = 0, currentRotY = 0;
+        let animFrame = null;
+
+        card.addEventListener('mouseenter', () => {
+          isHovered = true;
+          updateTilt();
+        });
+
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width - 0.5;
+          const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+          targetRotX = -y * 18;
+          targetRotY = x * 18;
+        });
+
+        card.addEventListener('mouseleave', () => {
+          isHovered = false;
+          targetRotX = 0;
+          targetRotY = 0;
+        });
+
+        function updateTilt() {
+          currentRotX += (targetRotX - currentRotX) * 0.12;
+          currentRotY += (targetRotY - currentRotY) * 0.12;
+
+          if (isHovered || Math.abs(currentRotX) > 0.08 || Math.abs(currentRotY) > 0.08) {
+            card.style.transform = `perspective(1000px) translateY(-14px) rotateX(${currentRotX.toFixed(2)}deg) rotateY(${currentRotY.toFixed(2)}deg) translateZ(28px)`;
+            animFrame = requestAnimationFrame(updateTilt);
+          } else {
+            card.style.transform = '';
+            cancelAnimationFrame(animFrame);
+          }
+        }
+      });
+    }
+
+    // Theme Switcher Engine (Mode Jour & Mode Nuit)
+    function initThemeSwitcher() {
+      const themeBtn = document.getElementById('themeToggleBtn');
+      const themeLabel = document.getElementById('themeLabel');
+      
+      const savedTheme = localStorage.getItem('nari_theme') || 'dark';
+      
+      function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('nari_theme', theme);
+        if (themeLabel) {
+          themeLabel.textContent = theme === 'dark' ? 'NUIT' : 'JOUR';
+        }
+        if (window.updateMoonTheme) {
+          window.updateMoonTheme(theme === 'dark');
+        }
+      }
+
+      applyTheme(savedTheme);
+
+      if (themeBtn) {
+        themeBtn.addEventListener('click', () => {
+          const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+          const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+          applyTheme(newTheme);
+        });
+      }
+    }
+
+    // 2. Scroll Progress Bar Engine
+    function initScrollProgress() {
+      const progressBar = document.getElementById('scroll-progress-bar');
+      if (!progressBar) return;
+
+      window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+        progressBar.style.width = progress + '%';
+      }, { passive: true });
+    }
+
+    // 3. Scroll Reveal Observer
+    function initScrollReveals() {
+      const reveals = document.querySelectorAll('.reveal-element');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+          }
+        });
+      }, { threshold: 0.1 });
+
+      reveals.forEach(el => observer.observe(el));
+    }
+
+    // 4. Letter-by-Letter Sequential Entrance
+    function initLetterByLetterReveal() {
+      const lines = document.querySelectorAll('.char-reveal-line');
+      lines.forEach((line) => {
+        const text = line.getAttribute('data-text') || line.textContent.trim();
+        line.innerHTML = '';
+        
+        const words = text.split(' ');
+        words.forEach((word, wIdx) => {
+          const wordSpan = document.createElement('span');
+          wordSpan.className = 's-word';
+          
+          for (let i = 0; i < word.length; i++) {
+            const charSpan = document.createElement('span');
+            charSpan.className = 's-char char-hidden';
+            charSpan.textContent = word[i];
+            charSpan.setAttribute('data-char', word[i]);
+            wordSpan.appendChild(charSpan);
+          }
+          
+          line.appendChild(wordSpan);
+          if (wIdx < words.length - 1) {
+            const spaceSpan = document.createElement('span');
+            spaceSpan.className = 's-char';
+            spaceSpan.innerHTML = '&nbsp;';
+            line.appendChild(spaceSpan);
+          }
+        });
+      });
+
+      setTimeout(() => {
+        const allChars = document.querySelectorAll('.hero-tagline .s-char.char-hidden');
+        allChars.forEach((ch, idx) => {
+          setTimeout(() => {
+            ch.classList.remove('char-hidden');
+            ch.classList.add('char-revealed');
+          }, idx * 24);
+        });
+      }, 350);
+    }
+
+    // 7. 3D Liquid Magnetic Wave Text Deformation Engine
+    function initLetterDeformationPhysics() {
+      const tagline = document.getElementById('heroTagline');
+      if (!tagline) return;
+
+      const chars = [];
+      function cacheLetterData() {
+        chars.length = 0;
+        const charElements = tagline.querySelectorAll('.s-char');
+        charElements.forEach((el) => {
+          if (el.textContent.trim() === '') return;
+          const rect = el.getBoundingClientRect();
+          chars.push({
+            el: el,
+            origX: rect.left + rect.width / 2,
+            origY: rect.top + rect.height / 2,
+            curX: 0,
+            curY: 0,
+            curScaleX: 1,
+            curScaleY: 1,
+            curRot: 0,
+            targetX: 0,
+            targetY: 0,
+            targetScaleX: 1,
+            targetScaleY: 1,
+            targetRot: 0,
+            velX: 0,
+            velY: 0
+          });
+        });
+      }
+
+      cacheLetterData();
+      window.addEventListener('resize', cacheLetterData, { passive: true });
+      window.addEventListener('scroll', cacheLetterData, { passive: true });
+
+      let mouseX = -9999, mouseY = -9999;
+      let prevMouseX = -9999, prevMouseY = -9999;
+      let mouseVx = 0, mouseVy = 0;
+      let isInteracting = false;
+
+      window.addEventListener('mousemove', (e) => {
+        if (prevMouseX !== -9999) {
+          mouseVx = e.clientX - prevMouseX;
+          mouseVy = e.clientY - prevMouseY;
+        }
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        prevMouseX = mouseX;
+        prevMouseY = mouseY;
+        isInteracting = true;
+      }, { passive: true });
+
+      window.addEventListener('mouseleave', () => {
+        mouseX = -9999;
+        mouseY = -9999;
+        mouseVx = 0;
+        mouseVy = 0;
+        isInteracting = false;
+      });
+
+      const RADIUS = 140;
+      const MAX_DISPLACE = 26;
+      const SPRING_K = 0.085;
+      const DAMPING = 0.82;
+
+      function renderPhysics() {
+        mouseVx *= 0.88;
+        mouseVy *= 0.88;
+        const mouseSpeed = Math.sqrt(mouseVx * mouseVx + mouseVy * mouseVy);
+
+        for (let i = 0; i < chars.length; i++) {
+          const item = chars[i];
+          const dx = mouseX - item.origX;
+          const dy = mouseY - item.origY;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (isInteracting && dist < RADIUS && dist > 0.001) {
+            const factor = Math.pow((1 - dist / RADIUS), 2.2);
+            const angle = Math.atan2(dy, dx);
+            const repelMag = factor * MAX_DISPLACE;
+            
+            const fluidTangentX = -Math.sin(angle) * (mouseVy * 0.4);
+            const fluidTangentY = Math.cos(angle) * (mouseVx * 0.4);
+
+            item.targetX = -Math.cos(angle) * repelMag + fluidTangentX * factor;
+            item.targetY = -Math.sin(angle) * repelMag + fluidTangentY * factor;
+
+            const stretch = 1 + factor * 0.45 * Math.min(2.5, 1 + mouseSpeed * 0.04);
+            item.targetScaleX = stretch;
+            item.targetScaleY = 1 / stretch;
+            item.targetRot = (Math.cos(angle) * mouseVy - Math.sin(angle) * mouseVx) * 0.12 * factor;
+          } else {
+            item.targetX = 0;
+            item.targetY = 0;
+            item.targetScaleX = 1;
+            item.targetScaleY = 1;
+            item.targetRot = 0;
+          }
+
+          const forceX = (item.targetX - item.curX) * SPRING_K;
+          const forceY = (item.targetY - item.curY) * SPRING_K;
+          
+          item.velX = (item.velX + forceX) * DAMPING;
+          item.velY = (item.velY + forceY) * DAMPING;
+
+          item.curX += item.velX;
+          item.curY += item.velY;
+
+          item.curScaleX += (item.targetScaleX - item.curScaleX) * 0.14;
+          item.curScaleY += (item.targetScaleY - item.curScaleY) * 0.14;
+          item.curRot += (item.targetRot - item.curRot) * 0.14;
+
+          if (Math.abs(item.curX) > 0.01 || Math.abs(item.curY) > 0.01 || Math.abs(item.curScaleX - 1) > 0.005) {
+            item.el.style.transform = `translate3d(${item.curX.toFixed(2)}px, ${item.curY.toFixed(2)}px, 0px) scale(${item.curScaleX.toFixed(3)}, ${item.curScaleY.toFixed(3)}) rotate(${item.curRot.toFixed(2)}deg)`;
+          } else {
+            item.el.style.transform = '';
+          }
+        }
+
+        requestAnimationFrame(renderPhysics);
+      }
+
+      requestAnimationFrame(renderPhysics);
+    }
+
+    // 6. Japanese Scramble Text Effect
+    function initJapaneseScramble() {
+      const glitchChars = "ラドクリフ世界中ヴエサシスク0123456789//++";
+      const glitchColors = ["glitch-c", "glitch-m", "glitch-y", "glitch-o", "glitch-w"];
+
+      function splitIntoWords(element) {
+        const text = element.textContent.trim();
+        element.innerHTML = "";
+        const words = text.split(" ");
+        words.forEach((word, wIdx) => {
+          const wordSpan = document.createElement("span");
+          wordSpan.className = "s-word";
+          for (let i = 0; i < word.length; i++) {
+            const charSpan = document.createElement("span");
+            charSpan.className = "s-char";
+            charSpan.textContent = word[i];
+            charSpan.setAttribute("data-char", word[i]);
+            wordSpan.appendChild(charSpan);
+          }
+          element.appendChild(wordSpan);
+          if (wIdx < words.length - 1) {
+            const spaceSpan = document.createElement("span");
+            spaceSpan.className = "s-char";
+            spaceSpan.innerHTML = "&nbsp;";
+            element.appendChild(spaceSpan);
+          }
+        });
+      }
+
+      function attachScrambleHover(wordEl) {
+        let interval = null;
+        const chars = wordEl.querySelectorAll('.s-char');
+
+        wordEl.addEventListener('mouseenter', () => {
+          let frame = 0;
+          interval = setInterval(() => {
+            chars.forEach((ch) => {
+              ch.classList.remove(...glitchColors);
+              if (Math.random() > frame / 14) {
+                ch.textContent = glitchChars[Math.floor(Math.random() * glitchChars.length)];
+                ch.style.opacity = 0.7 + Math.random() * 0.3;
+                ch.classList.add(glitchColors[Math.floor(Math.random() * glitchColors.length)]);
+              } else {
+                ch.textContent = ch.getAttribute('data-char');
+                ch.style.opacity = 1;
+              }
+            });
+            frame++;
+            if (frame > 18) {
+              clearInterval(interval);
+              chars.forEach(ch => {
+                ch.textContent = ch.getAttribute('data-char');
+                ch.style.opacity = 1;
+                ch.classList.remove(...glitchColors);
+              });
+            }
+          }, 35);
+        });
+
+        wordEl.addEventListener('mouseleave', () => {
+          if (interval) clearInterval(interval);
+          chars.forEach(ch => {
+            ch.textContent = ch.getAttribute('data-char');
+            ch.style.opacity = 1;
+            ch.classList.remove(...glitchColors);
+          });
+        });
+      }
+
+      const scrambleTargets = document.querySelectorAll('.scramble-text');
+      scrambleTargets.forEach(el => {
+        splitIntoWords(el);
+        el.querySelectorAll('.s-word').forEach(w => attachScrambleHover(w));
+      });
+    }
+
+    // 5. 3D Animated Space World (Need some space? - Sketchfab) with Dynamic Zoom & Parallax Engine
+    function initSketchfabSpaceZoom() {
+      const iframe = document.getElementById('sketchfabSpaceIframe');
+      const container = document.getElementById('moonCanvasContainer');
+      if (!iframe || !container) return;
+
+      let currentScale = 1.06;
+      let targetScale = 1.06;
+      let targetTiltX = 0, targetTiltY = 0;
+      let currentTiltX = 0, currentTiltY = 0;
+
+      // Mouse Parallax & Dynamic Perspective Tilt
+      window.addEventListener('mousemove', (e) => {
+        const ndcX = (e.clientX / window.innerWidth) * 2 - 1;
+        const ndcY = (e.clientY / window.innerHeight) * 2 - 1;
+
+        targetTiltX = -ndcY * 3.0;
+        targetTiltY = ndcX * 3.0;
+      }, { passive: true });
+
+      // Smooth Rendering Animation Loop
+      function renderZoomLoop() {
+        currentTiltX += (targetTiltX - currentTiltX) * 0.06;
+        currentTiltY += (targetTiltY - currentTiltY) * 0.06;
+
+        iframe.style.transform = `scale(1.05) rotateX(${currentTiltX.toFixed(2)}deg) rotateY(${currentTiltY.toFixed(2)}deg)`;
+        requestAnimationFrame(renderZoomLoop);
+      }
+      requestAnimationFrame(renderZoomLoop);
+
+      // 4. Sketchfab Viewer API Integration
+      if (window.Sketchfab) {
+        try {
+          const client = new window.Sketchfab(iframe);
+          client.init('d6521362b37b48e3a82bce4911409303', {
+            autostart: 1,
+            autospin: 0.22,
+            camera: 0,
+            ui_controls: 0,
+            ui_infos: 0,
+            ui_stop: 0,
+            ui_watermark: 0,
+            ui_hint: 0,
+            ui_theme: 'dark',
+            transparent: 0,
+            success: function(api) {
+              api.start();
+              api.addEventListener('viewerready', function() {
+                // API ready
+              });
+            }
+          });
+        } catch (err) {
+          console.log('Sketchfab active in embedded iframe mode');
+        }
+      }
+    }
+
+    // 10. WebGL 3D Interactive Particle Globes for Subscription Cards
+    function initCardParticleGlobes() {
+      const createGlobeDotTexture = () => {
+        const c = document.createElement('canvas');
+        c.width = 64; c.height = 64;
+        const ctx = c.getContext('2d');
+        const g = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+        g.addColorStop(0, 'rgba(255, 255, 255, 1)');
+        g.addColorStop(0.35, 'rgba(255, 255, 255, 0.95)');
+        g.addColorStop(0.7, 'rgba(220, 235, 255, 0.3)');
+        g.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, 64, 64);
+        return new THREE.CanvasTexture(c);
+      };
+      const dotTex = createGlobeDotTexture();
+
+      // Monthly Globe (Silver Starlight Celestial Sphere)
+      setupSingleGlobe('globeMonthlyCanvas', {
+        particleCount: 12000,
+        ringCount: 4000,
+        baseColor: [1.0, 1.0, 1.0],
+        accentColor: [0.85, 0.92, 1.0],
+        ringRadius: 1.55,
+        rotationSpeed: 0.007
+      });
+
+      // Lifetime Globe (Quantum Gold/Diamond Celestial Sphere with Dual Crossing Rings)
+      setupSingleGlobe('globeLifetimeCanvas', {
+        particleCount: 15000,
+        ringCount: 6000,
+        baseColor: [1.0, 0.98, 0.92],
+        accentColor: [1.0, 0.88, 0.65],
+        ringRadius: 1.65,
+        dualRing: true,
+        rotationSpeed: 0.009
+      });
+
+      function setupSingleGlobe(containerId, config) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        const w = container.clientWidth || 150;
+        const h = container.clientHeight || 150;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(40, w / h, 0.1, 100);
+        camera.position.z = 4.2;
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(w, h);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2.5));
+        container.appendChild(renderer.domElement);
+
+        const globeGroup = new THREE.Group();
+        scene.add(globeGroup);
+
+        const positions = [];
+        const colors = [];
+        const noiseData = [];
+        const R = 1.12;
+
+        for (let i = 0; i < config.particleCount; i++) {
+          const theta = Math.random() * Math.PI * 2;
+          const phi = Math.acos(Math.random() * 2 - 1);
+          const r = R + (Math.random() - 0.5) * 0.06;
+
+          const px = r * Math.sin(phi) * Math.cos(theta);
+          const py = r * Math.sin(phi) * Math.sin(theta);
+          const pz = r * Math.cos(phi);
+
+          positions.push(px, py, pz);
+          noiseData.push(Math.random() * Math.PI * 2, Math.random() * 2 + 1);
+
+          const isAccent = Math.random() < 0.25;
+          const col = isAccent ? config.accentColor : config.baseColor;
+          colors.push(col[0], col[1], col[2]);
+        }
+
+        for (let i = 0; i < config.ringCount; i++) {
+          const theta = Math.random() * Math.PI * 2;
+          const r = config.ringRadius + (Math.random() - 0.5) * 0.12;
+          const px = r * Math.cos(theta);
+          const py = (Math.random() - 0.5) * 0.04;
+          const pz = r * Math.sin(theta);
+
+          positions.push(px, py, pz);
+          noiseData.push(Math.random() * Math.PI * 2, Math.random() * 2 + 1);
+          colors.push(1.0, 1.0, 1.0);
+        }
+
+        if (config.dualRing) {
+          for (let i = 0; i < config.ringCount * 0.6; i++) {
+            const theta = Math.random() * Math.PI * 2;
+            const r = config.ringRadius * 1.08 + (Math.random() - 0.5) * 0.08;
+            const px = r * Math.cos(theta);
+            const py = r * Math.sin(theta) * 0.85;
+            const pz = (Math.random() - 0.5) * 0.06;
+
+            positions.push(px, py, pz);
+            noiseData.push(Math.random() * Math.PI * 2, Math.random() * 2 + 1);
+            colors.push(config.accentColor[0], config.accentColor[1], config.accentColor[2]);
+          }
+        }
+
+        const totalPoints = positions.length / 3;
+        const origPos = new Float32Array(positions);
+        const curPos = new Float32Array(positions);
+        const colArr = new Float32Array(colors);
+
+        const geo = new THREE.BufferGeometry();
+        geo.setAttribute('position', new THREE.BufferAttribute(curPos, 3));
+        geo.setAttribute('color', new THREE.Float32BufferAttribute(colArr, 3));
+
+        const mat = new THREE.PointsMaterial({
+          size: 0.038,
+          map: dotTex,
+          vertexColors: true,
+          transparent: true,
+          opacity: 0.95,
+          depthWrite: false
+        });
+
+        const pointsMesh = new THREE.Points(geo, mat);
+        globeGroup.add(pointsMesh);
+        globeGroup.rotation.x = 0.35;
+        globeGroup.rotation.z = -0.15;
+
+        let isCardHovered = false;
+        const parentCard = container.closest('.bento-card');
+        if (parentCard) {
+          parentCard.addEventListener('mouseenter', () => { isCardHovered = true; });
+          parentCard.addEventListener('mouseleave', () => { isCardHovered = false; });
+        }
+
+        let clock = new THREE.Clock();
+        function animGlobe() {
+          requestAnimationFrame(animGlobe);
+          const t = clock.getElapsedTime();
+          const speed = isCardHovered ? config.rotationSpeed * 2.8 : config.rotationSpeed;
+          globeGroup.rotation.y += speed;
+
+          const pAttr = geo.attributes.position.array;
+          for (let i = 0; i < totalPoints; i++) {
+            const i3 = i * 3;
+            const ox = origPos[i3];
+            const oy = origPos[i3 + 1];
+            const oz = origPos[i3 + 2];
+            const phase = noiseData[i * 2];
+            const freq = noiseData[i * 2 + 1];
+            const wave = Math.sin(t * freq + phase) * (isCardHovered ? 0.025 : 0.012);
+
+            pAttr[i3] = ox * (1 + wave);
+            pAttr[i3 + 1] = oy * (1 + wave);
+            pAttr[i3 + 2] = oz * (1 + wave);
+          }
+          geo.attributes.position.needsUpdate = true;
+
+          renderer.render(scene, camera);
+        }
+        animGlobe();
+      }
+    }
+
+    // Modal Operations
+    let selectedTier = 'lifetime';
+    function openPreorderModal(tier) {
+      selectedTier = tier || 'lifetime';
+      selectModalTier(selectedTier);
+      const modal = document.getElementById('preorderModal');
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function closePreorderModal() {
+      const modal = document.getElementById('preorderModal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function selectModalTier(tier) {
+      selectedTier = tier;
+      const m = document.getElementById('tierOptionMonthly');
+      const l = document.getElementById('tierOptionLifetime');
+      if (m && l) {
+        if (tier === 'monthly') {
+          m.classList.add('selected');
+          l.classList.remove('selected');
+        } else {
+          l.classList.add('selected');
+          m.classList.remove('selected');
+        }
+      }
+    }
+
+    function handlePreorderSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('orderName').value;
+      const email = document.getElementById('orderEmail').value;
+      const os = document.getElementById('orderOS').value;
+
+      closePreorderModal();
+      if (selectedTier === 'lifetime') {
+        window.open('https://naoufal30.gumroad.com/l/narios', '_blank');
+      }
+      showToast(`Merci ${name} ! Redirection vers la finalisation (${selectedTier.toUpperCase()} - ${os})...`);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toastNotification');
+      const text = document.getElementById('toastMessage');
+      if (toast && text) {
+        text.textContent = msg;
+        toast.style.display = 'flex';
+        setTimeout(() => {
+          toast.style.display = 'none';
+        }, 4500);
+      }
+    }
+  </script>
+</body>
+</html>

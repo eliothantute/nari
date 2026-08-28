@@ -1,0 +1,17 @@
+{
+  "name": "nari-os",
+  "version": "1.0.0",
+  "description": "NARI OS - Voice Autonomous AI with Liquid Hover & 3D Celestial Core",
+  "scripts": {
+    "dev": "vite --port 3001 --open",
+    "build": "vite build",
+    "preview": "vite preview",
+    "serve": "serve -p 3001 ."
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  },
+  "dependencies": {
+    "three": "^0.160.0"
+  }
+}
