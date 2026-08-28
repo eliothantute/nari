@@ -755,24 +755,32 @@
         targetTiltY = ndcX * 3.0;
       }, { passive: true });
 
-      // 5. Smooth Rendering Animation Loop (Elon appears ONLY at the very end of the zoom)
+      // 5. Smooth Rendering Animation Loop (Elon appears ONLY at the very end of the zoom, all by himself!)
+      const heroContent = document.querySelector('.lucerra-center-content');
       function renderZoomLoop() {
         currentScale += (targetScale - currentScale) * 0.08;
         currentTiltX += (targetTiltX - currentTiltX) * 0.06;
         currentTiltY += (targetTiltY - currentTiltY) * 0.06;
 
-        // Image appears strictly at the end of the galaxy zoom (scale > 1.42)
-        const endOfZoomProgress = Math.min(1.0, Math.max(0.0, (currentScale - 1.42) / 0.26));
+        // Image appears strictly at the end of the galaxy zoom (scale > 1.36)
+        const endOfZoomProgress = Math.min(1.0, Math.max(0.0, (currentScale - 1.36) / 0.28));
 
-        // Scale 3D galaxy and fade ONLY at the very end of the zoom
+        // 1. Scale & fade 3D galaxy at the end of zoom
         iframe.style.transform = `scale(${currentScale.toFixed(4)}) rotateX(${currentTiltX.toFixed(2)}deg) rotateY(${currentTiltY.toFixed(2)}deg)`;
         iframe.style.opacity = (1.0 - endOfZoomProgress * 0.98).toFixed(3);
 
-        // Reveal Elon Musk strictly at the climax of the zoom
+        // 2. Reveal Elon Musk cleanly and smoothly
         if (elonBackdrop) {
           elonBackdrop.style.opacity = (endOfZoomProgress).toFixed(3);
-          const elonScale = (1.0 + endOfZoomProgress * 0.12).toFixed(3);
-          elonBackdrop.style.transform = `scale(${elonScale}) rotateX(${(currentTiltX * 0.7).toFixed(2)}deg) rotateY(${(currentTiltY * 0.7).toFixed(2)}deg)`;
+          const elonScale = (1.0 + endOfZoomProgress * 0.06).toFixed(3);
+          elonBackdrop.style.transform = `scale(${elonScale}) rotateX(${(currentTiltX * 0.5).toFixed(2)}deg) rotateY(${(currentTiltY * 0.5).toFixed(2)}deg)`;
+        }
+
+        // 3. Fade out the hero text so Elon Musk displays all by himself!
+        if (heroContent) {
+          heroContent.style.opacity = (1.0 - endOfZoomProgress * 0.98).toFixed(3);
+          heroContent.style.transform = `translateY(${(-endOfZoomProgress * 30).toFixed(1)}px)`;
+          heroContent.style.pointerEvents = endOfZoomProgress > 0.6 ? 'none' : 'auto';
         }
 
         requestAnimationFrame(renderZoomLoop);
