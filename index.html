@@ -744,6 +744,24 @@
         }
       }, { passive: true });
 
+      // Reset zoom handlers
+      if (elonBackdrop) {
+        elonBackdrop.addEventListener('click', () => {
+          targetScale = 1.04;
+        });
+        elonBackdrop.addEventListener('wheel', (e) => {
+          if (e.deltaY < 0) {
+            targetScale = 1.04;
+          }
+        }, { passive: true });
+      }
+
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && targetScale > 1.30) {
+          targetScale = 1.04;
+        }
+      });
+
       // 4. Mouse Parallax & Dynamic Perspective Tilt
       window.addEventListener('mousemove', (e) => {
         const ndcX = (e.clientX / window.innerWidth) * 2 - 1;
@@ -753,7 +771,7 @@
         targetTiltY = ndcX * 3.0;
       }, { passive: true });
 
-      // 5. Smooth Rendering Animation Loop (Elon appears ONLY at the very end of the zoom, all by himself!)
+      // 5. Smooth Rendering Animation Loop (Elon appears ONLY at the very end of the zoom, all by himself in fullscreen!)
       const heroContent = document.querySelector('.lucerra-center-content');
       function renderZoomLoop() {
         currentScale += (targetScale - currentScale) * 0.08;
@@ -767,14 +785,19 @@
         iframe.style.transform = `scale(${currentScale.toFixed(4)}) rotateX(${currentTiltX.toFixed(2)}deg) rotateY(${currentTiltY.toFixed(2)}deg)`;
         iframe.style.opacity = (1.0 - endOfZoomProgress * 0.98).toFixed(3);
 
-        // 2. Reveal Elon Musk cleanly and smoothly
+        // 2. Reveal Elon Musk cleanly and smoothly in fullscreen alone
         if (elonBackdrop) {
           elonBackdrop.style.opacity = (endOfZoomProgress).toFixed(3);
-          const elonScale = (1.0 + endOfZoomProgress * 0.06).toFixed(3);
-          elonBackdrop.style.transform = `scale(${elonScale}) rotateX(${(currentTiltX * 0.5).toFixed(2)}deg) rotateY(${(currentTiltY * 0.5).toFixed(2)}deg)`;
+          if (endOfZoomProgress > 0.6) {
+            elonBackdrop.classList.add('is-active');
+          } else {
+            elonBackdrop.classList.remove('is-active');
+          }
+          const elonScale = (1.0 + endOfZoomProgress * 0.04).toFixed(3);
+          elonBackdrop.style.transform = `scale(${elonScale}) rotateX(${(currentTiltX * 0.4).toFixed(2)}deg) rotateY(${(currentTiltY * 0.4).toFixed(2)}deg)`;
         }
 
-        // 3. Fade out the hero text so Elon Musk displays all by himself!
+        // 3. Fade out the hero text so Elon Musk displays completely alone!
         if (heroContent) {
           heroContent.style.opacity = (1.0 - endOfZoomProgress * 0.98).toFixed(3);
           heroContent.style.transform = `translateY(${(-endOfZoomProgress * 30).toFixed(1)}px)`;
