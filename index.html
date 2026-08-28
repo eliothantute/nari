@@ -52,7 +52,7 @@
     <main>
       <!-- 1. CINEMATIC HERO (3D Animated Space World: Need Some Space? with Interactive Zoom) -->
       <section class="lucerra-cinematic-hero" id="home">
-        <!-- 3D Sketchfab Space Background with Interactive Zoom -->
+        <!-- 3D Sketchfab Space Background with Interactive Zoom & Seamless Elon Transition -->
         <div class="hero-moon-wrap reveal-element" id="moonCanvasContainer">
           <iframe 
             id="sketchfabSpaceIframe"
@@ -66,6 +66,13 @@
             allowfullscreen
             class="sketchfab-space-iframe">
           </iframe>
+
+          <!-- Seamless Elon Musk Background Layer embedded directly in the Hero -->
+          <div class="hero-elon-backdrop" id="heroElonBackdrop">
+            <img src="assets/elon_rogan.jpg" alt="Elon Musk Joe Rogan" class="hero-elon-img">
+            <div class="hero-elon-gradient-vignette"></div>
+          </div>
+
           <div class="sketchfab-gradient-overlay"></div>
         </div>
 
@@ -257,51 +264,8 @@
     <span id="toastMessage">Commande enregistrée avec succès.</span>
   </div>
 
-  <!-- Galaxy Hyper-Zoom Easter Egg (Elon Musk Joe Rogan) -->
-  <div class="galaxy-elon-overlay" id="galaxyElonOverlay" onclick="if(event.target===this) closeElonEasterEgg()">
-    <div class="galaxy-elon-card">
-      <div class="galaxy-elon-img-wrap">
-        <img src="assets/elon_rogan.jpg" alt="Elon Musk Joe Rogan Interview" class="galaxy-elon-img">
-        <div class="galaxy-elon-smoke-glow"></div>
-      </div>
-      <div class="galaxy-elon-hud">
-        <div class="galaxy-elon-badge">// SIGNAL INTERSTELLAIRE • JOE ROGAN PODCAST SECTOR</div>
-        <h3 class="galaxy-elon-title">« I mean, it’s legal, right? »</h3>
-        <p class="galaxy-elon-desc">
-          Pendant qu'Elon explore les confins du cosmos et ses inspirations, NARI pilote votre ordinateur en temps réel.
-        </p>
-        <button class="galaxy-elon-close-btn" onclick="closeElonEasterEgg()">
-          <span>REVENIR À LA GALAXIE</span> ➔
-        </button>
-      </div>
-    </div>
-  </div>
-
   <!-- JAVASCRIPT LOGIC -->
   <script>
-    // Global Elon Musk Easter Egg Controllers
-    let isElonEasterEggActive = false;
-
-    window.openElonEasterEgg = function() {
-      if (isElonEasterEggActive) return;
-      isElonEasterEggActive = true;
-      const overlay = document.getElementById('galaxyElonOverlay');
-      if (overlay) overlay.classList.add('is-active');
-    };
-
-    window.closeElonEasterEgg = function() {
-      isElonEasterEggActive = false;
-      const overlay = document.getElementById('galaxyElonOverlay');
-      if (overlay) overlay.classList.remove('is-active');
-      if (window.resetGalaxyZoom) window.resetGalaxyZoom();
-    };
-
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && isElonEasterEggActive) {
-        closeElonEasterEgg();
-      }
-    });
-
     document.addEventListener('DOMContentLoaded', () => {
       // 0. Cinematic Preloader Progress
       initCinematicPreloader();
@@ -744,44 +708,43 @@
       });
     }
 
-    // 5. 3D Animated Space World (Need some space? - Sketchfab) with Dynamic Zoom & Parallax Engine
+    // 5. 3D Animated Space World with Seamless In-Hero Elon Musk Zoom Transition
     function initSketchfabSpaceZoom() {
       const iframe = document.getElementById('sketchfabSpaceIframe');
       const container = document.getElementById('moonCanvasContainer');
+      const elonBackdrop = document.getElementById('heroElonBackdrop');
       if (!iframe || !container) return;
 
-      let currentScale = 1.05;
-      let targetScale = 1.05;
+      let currentScale = 1.04;
+      let targetScale = 1.04;
       let targetTiltX = 0, targetTiltY = 0;
       let currentTiltX = 0, currentTiltY = 0;
 
-      // 1. Scroll-Driven Cosmic Zoom
+      // 1. Scroll-Driven Seamless Zoom inside the Hero
       window.addEventListener('scroll', () => {
         const scrollY = window.scrollY;
         const heroHeight = window.innerHeight;
-        const progress = Math.min(1.0, scrollY / heroHeight);
+        const progress = Math.min(1.0, scrollY / (heroHeight * 0.85));
         
-        // Deep cosmic zoom as user scrolls
-        targetScale = 1.05 + progress * 0.42;
+        // Deep cosmic zoom as user scrolls through the hero
+        targetScale = 1.04 + progress * 0.70;
       }, { passive: true });
 
-      // 2. Wheel Zoom Interaction over Galaxy Scene
+      // 2. Mouse Wheel Zoom Interaction directly on the Galaxy Hero
       window.addEventListener('wheel', (e) => {
-        if (window.scrollY < 250 && e.deltaY > 0) {
-          targetScale = Math.min(1.48, targetScale + 0.08);
-        } else if (window.scrollY < 250 && e.deltaY < 0 && targetScale > 1.05) {
-          targetScale = Math.max(1.05, targetScale - 0.08);
+        if (window.scrollY < 300) {
+          if (e.deltaY > 0) {
+            targetScale = Math.min(1.75, targetScale + 0.09);
+          } else if (e.deltaY < 0 && targetScale > 1.04) {
+            targetScale = Math.max(1.04, targetScale - 0.09);
+          }
         }
       }, { passive: true });
 
-      // 3. Double-Click or Tap to Hyper-Zoom
+      // 3. Double-Click or Click to toggle deep Zoom
       container.addEventListener('dblclick', () => {
-        targetScale = 1.45;
+        targetScale = targetScale > 1.30 ? 1.04 : 1.65;
       });
-
-      window.resetGalaxyZoom = function() {
-        targetScale = 1.05;
-      };
 
       // 4. Mouse Parallax & Dynamic Perspective Tilt
       window.addEventListener('mousemove', (e) => {
@@ -792,16 +755,24 @@
         targetTiltY = ndcX * 3.0;
       }, { passive: true });
 
-      // 5. Smooth Rendering Animation Loop
+      // 5. Smooth Rendering Animation Loop with Seamless Cross-Fade
       function renderZoomLoop() {
-        currentScale += (targetScale - currentScale) * 0.07;
+        currentScale += (targetScale - currentScale) * 0.08;
         currentTiltX += (targetTiltX - currentTiltX) * 0.06;
         currentTiltY += (targetTiltY - currentTiltY) * 0.06;
 
+        // Calculate smooth transition ratio from 0.0 (galaxy) to 1.0 (Elon Musk)
+        const zoomProgress = Math.min(1.0, Math.max(0.0, (currentScale - 1.08) / 0.42));
+
+        // Scale & fade galaxy 3D iframe
         iframe.style.transform = `scale(${currentScale.toFixed(4)}) rotateX(${currentTiltX.toFixed(2)}deg) rotateY(${currentTiltY.toFixed(2)}deg)`;
-        
-        if (!isElonEasterEggActive && currentScale >= 1.35) {
-          openElonEasterEgg();
+        iframe.style.opacity = (1.0 - zoomProgress * 0.96).toFixed(3);
+
+        // Scale & fade in Elon Musk image in hero background
+        if (elonBackdrop) {
+          elonBackdrop.style.opacity = (zoomProgress).toFixed(3);
+          const elonScale = (1.02 + zoomProgress * 0.15).toFixed(3);
+          elonBackdrop.style.transform = `scale(${elonScale}) rotateX(${(currentTiltX * 0.7).toFixed(2)}deg) rotateY(${(currentTiltY * 0.7).toFixed(2)}deg)`;
         }
 
         requestAnimationFrame(renderZoomLoop);
