@@ -724,26 +724,26 @@
       window.addEventListener('scroll', () => {
         const scrollY = window.scrollY;
         const heroHeight = window.innerHeight;
-        const progress = Math.min(1.0, scrollY / (heroHeight * 0.85));
+        const progress = Math.min(1.0, scrollY / (heroHeight * 0.9));
         
         // Deep cosmic zoom as user scrolls through the hero
-        targetScale = 1.04 + progress * 0.70;
+        targetScale = 1.04 + progress * 0.72;
       }, { passive: true });
 
       // 2. Mouse Wheel Zoom Interaction directly on the Galaxy Hero
       window.addEventListener('wheel', (e) => {
         if (window.scrollY < 300) {
           if (e.deltaY > 0) {
-            targetScale = Math.min(1.75, targetScale + 0.09);
+            targetScale = Math.min(1.75, targetScale + 0.10);
           } else if (e.deltaY < 0 && targetScale > 1.04) {
-            targetScale = Math.max(1.04, targetScale - 0.09);
+            targetScale = Math.max(1.04, targetScale - 0.10);
           }
         }
       }, { passive: true });
 
-      // 3. Double-Click or Click to toggle deep Zoom
+      // 3. Double-Click or Click to dive directly to the end of Zoom
       container.addEventListener('dblclick', () => {
-        targetScale = targetScale > 1.30 ? 1.04 : 1.65;
+        targetScale = targetScale > 1.45 ? 1.04 : 1.70;
       });
 
       // 4. Mouse Parallax & Dynamic Perspective Tilt
@@ -755,23 +755,23 @@
         targetTiltY = ndcX * 3.0;
       }, { passive: true });
 
-      // 5. Smooth Rendering Animation Loop with Seamless Cross-Fade
+      // 5. Smooth Rendering Animation Loop (Elon appears ONLY at the very end of the zoom)
       function renderZoomLoop() {
         currentScale += (targetScale - currentScale) * 0.08;
         currentTiltX += (targetTiltX - currentTiltX) * 0.06;
         currentTiltY += (targetTiltY - currentTiltY) * 0.06;
 
-        // Calculate smooth transition ratio from 0.0 (galaxy) to 1.0 (Elon Musk)
-        const zoomProgress = Math.min(1.0, Math.max(0.0, (currentScale - 1.08) / 0.42));
+        // Image appears strictly at the end of the galaxy zoom (scale > 1.42)
+        const endOfZoomProgress = Math.min(1.0, Math.max(0.0, (currentScale - 1.42) / 0.26));
 
-        // Scale & fade galaxy 3D iframe
+        // Scale 3D galaxy and fade ONLY at the very end of the zoom
         iframe.style.transform = `scale(${currentScale.toFixed(4)}) rotateX(${currentTiltX.toFixed(2)}deg) rotateY(${currentTiltY.toFixed(2)}deg)`;
-        iframe.style.opacity = (1.0 - zoomProgress * 0.96).toFixed(3);
+        iframe.style.opacity = (1.0 - endOfZoomProgress * 0.98).toFixed(3);
 
-        // Scale & fade in Elon Musk image in hero background
+        // Reveal Elon Musk strictly at the climax of the zoom
         if (elonBackdrop) {
-          elonBackdrop.style.opacity = (zoomProgress).toFixed(3);
-          const elonScale = (1.02 + zoomProgress * 0.15).toFixed(3);
+          elonBackdrop.style.opacity = (endOfZoomProgress).toFixed(3);
+          const elonScale = (1.0 + endOfZoomProgress * 0.12).toFixed(3);
           elonBackdrop.style.transform = `scale(${elonScale}) rotateX(${(currentTiltX * 0.7).toFixed(2)}deg) rotateY(${(currentTiltY * 0.7).toFixed(2)}deg)`;
         }
 
