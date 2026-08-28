@@ -115,10 +115,15 @@
           <a href="#pricing" class="lucerra-scroll-arrow" aria-label="Découvrir les offres">↓</a>
         </div>
 
-        <!-- Bottom Bar -->
+        <!-- Bottom Bar & Zoom Action Button -->
         <div class="lucerra-bottom-bar">
           <a href="#pricing">voir les offres</a>
         </div>
+
+        <button class="hero-zoom-action-btn" onclick="toggleGalaxyZoom()" aria-label="Zoomer sur la Galaxie">
+          <span class="hero-zoom-icon">🔍</span>
+          <span>EXPLORER LA GALAXIE</span>
+        </button>
       </section>
 
       <!-- 2. SUBSCRIPTION PRICING & ORDER TIERS (3D Particle Globe Cards) -->
@@ -720,22 +725,29 @@
       let targetTiltX = 0, targetTiltY = 0;
       let currentTiltX = 0, currentTiltY = 0;
 
-      // 1. Explicit Background Zoom on the Galaxy (Decoupled from Page Scroll!)
-      // Mouse Wheel Zoom directly over the Galaxy Background
-      container.addEventListener('wheel', (e) => {
-        if (window.scrollY < 80) {
-          if (e.deltaY > 0) {
-            targetScale = Math.min(1.75, targetScale + 0.12);
+      // Global Zoom Toggle function
+      window.toggleGalaxyZoom = function() {
+        targetScale = targetScale > 1.30 ? 1.04 : 1.70;
+      };
+
+      // 1. Explicit Background Zoom on the Galaxy (Window & Container Event Listening)
+      window.addEventListener('wheel', (e) => {
+        if (window.scrollY < 120) {
+          if (e.deltaY > 0 && targetScale < 1.70) {
+            targetScale = Math.min(1.75, targetScale + 0.14);
           } else if (e.deltaY < 0 && targetScale > 1.04) {
-            targetScale = Math.max(1.04, targetScale - 0.12);
+            targetScale = Math.max(1.04, targetScale - 0.14);
           }
         }
       }, { passive: true });
 
-      // 2. Double-Click directly on the Galaxy Background to toggle deep zoom
-      container.addEventListener('dblclick', () => {
-        targetScale = targetScale > 1.35 ? 1.04 : 1.70;
-      });
+      // 2. Double-Click directly anywhere on the Hero to toggle deep zoom
+      const heroEl = document.getElementById('home');
+      if (heroEl) {
+        heroEl.addEventListener('dblclick', () => {
+          window.toggleGalaxyZoom();
+        });
+      }
 
       // 3. Reset background zoom when user scrolls down to view sections below
       window.addEventListener('scroll', () => {
